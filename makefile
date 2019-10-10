@@ -29,14 +29,19 @@ OBJS := \
   ./debug/fsl_lpsci.o	\
   ./debug/fsl_smc.o		\
   ./debug/fsl_uart.o	\
+  ./debug/fsl_debug_console.o \
   ./debug/flash.o		\
-  ./debug/fsl_debug_console.o
+  ./debug/memtest.o	\
+  ./debug/logger.o	\
+  ./debug/pattern.o
   
   
 #############################
 PC_OBJS := ./debug/main.o \
-		./debug/flash.o
-		
+		./debug/flash.o	\
+  		./debug/memtest.o	\
+  		./debug/logger.o	\
+  		./debug/pattern.o		
 		
 ############################
 # List of dependency files
@@ -56,11 +61,12 @@ C_DEPS = \
   ./debug/fsl_smc.d		\
   ./debug/fsl_uart.d	\
   ./debug/flash.d		\
-  ./debug/fsl_debug_console.d
+  ./debug/fsl_debug_console.d	\
+  ./debug/memtest.d	\
+  ./debug/logger.d	\
+  ./debug/pattern.d
   
   
-  ###########################
-  # Files needed for PC_COMP
   
  
   
@@ -192,17 +198,31 @@ $(EXE): $(OBJS) $(USER_OBJS) linkerfile.ld
 	$(CC) $(CC_OPTIONS) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
+	
+./debug/logger.o: ./source/logger.c ./source/logger.h
+	@echo 'Building file: $<'
+	$(CC) $(CC_OPTIONS) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+	
+./debug/pattern.o: ./source/pattern.c ./source/pattern.h
+	@echo 'Building file: $<'
+	$(CC) $(CC_OPTIONS) -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
 endif
 
 PC_SCRS := \
 		./source/main.c \
 		./source/flash.c \
-		./source/memtest.c
+		./source/memtest.c	\
+		./source/logger.c	\
+		./source/pattern.c	\
 ###########################
 # PC Compilation
 ifeq ($(PLATFORM), PC)
 $(PC_EXE):	$(PC_SCRS)
-	$(CC) -o $(PC_EXE) $(CC_OPTIONS) $PC_SCRS)
+	$(CC) -o $(PC_EXE) $(CC_OPTIONS) $(PC_SCRS)
 endif
 
 

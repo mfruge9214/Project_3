@@ -10,13 +10,13 @@ uint32_t* allocateWords(size_t len)
 	{
 
 		// Add logger message
-		return null;
+		return NULL;
 	}
 
 	uint32_t* address = (uint32_t*) malloc(len);
 	if(!address)
 	{
-		return null;
+		return NULL;
 	}
 
 	return address;
@@ -31,3 +31,6 @@ void freeWords(uint32_t* src)
 	}
 	free(src);
 }
+
+
+
