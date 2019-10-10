@@ -27,10 +27,13 @@ void freeWords(uint32_t* src)
 {
 	if(!src)
 	{
-		// Add logging warning that no memory has been allocated there
+		// Add logging warning that no memory has been allocated to loc
 	}
 	free(src);
+
 }
+
+
 
 
 
