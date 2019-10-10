@@ -1,6 +1,7 @@
 /* Includes */
 
 #include <stdint.h>
+#include <stddef.h>
 
 
 /* Definitions */
