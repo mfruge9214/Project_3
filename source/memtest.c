@@ -1,7 +1,8 @@
 /* Includes */
 
 #include "memtest.h"
-#include "stdlib.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 
 uint32_t* allocateWords(size_t len)
@@ -31,10 +32,26 @@ void freeWords(uint32_t* src)
 		// Add logging warning that no memory has been allocated to loc
 	}
 	free(src);
+	printf("Freed\n");
 
 }
 
 
+mem_status writeMemory(uint32_t* loc, uint8_t value)
+{
+	// Write val to loc, determine if it was successful, and return result
+	mem_status result;
+	*loc = value;
 
+	if(*loc == value)
+	{
+		result = SUCCESS;
+	}
+	else
+	{
+		result = FAIL;
+	}
+	return result;
+}
 
 

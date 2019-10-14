@@ -37,14 +37,11 @@ void createPattern(size_t len, uint8_t seed, uint8_t* genList)
 		comp1 = bit1 ^ bit2;
 		comp2 = bit3 ^ bit7;
 		feedback = comp1 ^ comp2;
-		printf("Comp1: %d	Comp2: %d	Feedback: %d\n", comp1, comp2, feedback);
+
 		// Set next value by shifting +1 index and filling in 0th bit
 		next_state = (curr_state << 1) | (feedback & 1);
 		genList[i] = next_state;
-
 		curr_state = next_state;
-		printf("Value Generated: %d  Index: %d\n", next_state, i);
-
 	}
 
 }

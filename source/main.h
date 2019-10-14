@@ -10,7 +10,7 @@
 #define CYCLES_THRU_TABLE	10
 #define TABLE_ELEMENTS		20
 
-#define LEN		8
+#define LEN		16
 
 static const uint32_t timing_lookup[TABLE_ELEMENTS] =
 {
