@@ -73,9 +73,6 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="MyMakeProject.null.311128799" name="MyMakeProject"/>
 	</storageModule>
@@ -159,5 +156,17 @@
 				<runAllBuilders>true</runAllBuilders>
 			</target>
 		</buildTargets>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="com.crt.advproject.toolchain.exe.debug.185417182;com.crt.advproject.toolchain.exe.debug.185417182.2099479463;com.crt.advproject.cpp.exe.debug.920436240;com.crt.advproject.compiler.cpp.input.194891732">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.crt.advproject.GCCManagedMakePerProjectProfileCPP"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.crt.advproject.toolchain.exe.debug.185417182;com.crt.advproject.toolchain.exe.debug.185417182.2099479463;com.crt.advproject.gcc.exe.debug.1248491616;com.crt.advproject.compiler.input.1165435776">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.crt.advproject.GCCManagedMakePerProjectProfile"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.crt.advproject.toolchain.exe.debug.185417182;com.crt.advproject.toolchain.exe.debug.185417182.2099479463;com.crt.advproject.gas.exe.debug.1454044969;com.crt.advproject.assembler.input.751554243">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.crt.advproject.GCCManagedMakePerProjectProfile"/>
+		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>

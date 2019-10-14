@@ -99,8 +99,9 @@ uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed);
 /***********************************************
  * @brief	Calculates fully addressable memory location from an offset and a known base location
  *
- * @param[in] len	Offset from known memory location
+ * @param[in] base	Base address to use in calculation
+ * @param[in] len	Offset from base
  *
  * @returns Fully addressable memory location
  ***********************************************/
-uint32_t* getAddress(uint32_t* offset);
+uint32_t* getAddress(uint32_t* base, uint32_t* offset);

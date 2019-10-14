@@ -14,6 +14,7 @@ uint32_t* allocateWords(size_t len)
 	}
 
 	uint32_t* address = (uint32_t*) malloc(len);
+
 	if(!address)
 	{
 		return NULL;

@@ -44,12 +44,14 @@ int main(void) {
     printf("PC RUN\n");
 #endif
 
+uint8_t RandomNums[LEN];
 
-uint8_t* value;
-value = createPattern(8, 8);
-if(value)
+createPattern(LEN, 44, RandomNums);
+
+int i;
+for(i=0; i<LEN; i++)
 {
-
+	printf("Value: %d		Index: %d\n", RandomNums[i], i);
 }
 //    uint8_t cycles = 0;
 //    uint32_t time_on, time_off;

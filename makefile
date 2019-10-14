@@ -83,9 +83,13 @@ C_DEPS = \
  		
 PC_INCLUDES := \
 		-I"source"
-
-
-
+		
+PC_SCRS := \
+		./source/main.c \
+		./source/flash.c \
+		./source/memtest.c	\
+		./source/logger.c	\
+		./source/pattern.c	\
 
 ############################
 # Include generated dependcy files (only if not clean target)
@@ -212,12 +216,7 @@ $(EXE): $(OBJS) $(USER_OBJS) linkerfile.ld
 	@echo ' '
 endif
 
-PC_SCRS := \
-		./source/main.c \
-		./source/flash.c \
-		./source/memtest.c	\
-		./source/logger.c	\
-		./source/pattern.c	\
+
 ###########################
 # PC Compilation
 ifeq ($(PLATFORM), PC)
