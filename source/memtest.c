@@ -26,7 +26,7 @@ uint32_t* allocateWords(size_t len)
 
 void freeWords(uint32_t* src)
 {
-	if(!src)
+	if(src == NULL)
 	{
 		// Add logging warning that no memory has been allocated there
 	}
@@ -37,12 +37,12 @@ uint8_t* displayMemory(uint32_t* loc, size_t len)
 {
 	if(!loc)
 	{
-		// Log error
+		/* log error */
 		return NULL;
 	}
 	if(len <= 0)
 	{
-		// Log error
+		/* log error */
 		return NULL;
 	}
 
@@ -57,19 +57,17 @@ mem_status writeMemory(uint32_t* loc, uint8_t value)
 {
 	if(loc == NULL)
 	{
-		// Log error
+		/* log error */
 		return INVALID_LOC;
 	}
 
-	// Set value
-	*loc = value;
+	*loc = value; // set value
 
 	if(*loc != value)
 	{
-		// Log failure
+		/* log failure */
 		return FAILURE;
 	}
-	// Log success
 	return SUCCESS;
 }
 
@@ -77,12 +75,12 @@ mem_status invertBlock(uint32_t* loc, size_t len)
 {
 	if(loc == NULL)
 	{
-		// Log error
+		/* log error */
 		return INVALID_LOC;
 	}
 	if(len <= 0)
 	{
-		// Log error
+		/* log error */
 		return INVALID_LEN;
 	}
 
@@ -96,7 +94,6 @@ mem_status invertBlock(uint32_t* loc, size_t len)
 		loc++;
 		i++;
 	}
-
 	return SUCCESS;
 }
 
@@ -104,17 +101,17 @@ mem_status writePattern(uint32_t* loc, size_t len, int8_t seed)
 {
 	if(loc == NULL)
 	{
-		// Log error
+		/* log error */
 		return INVALID_LOC;
 	}
 	if(len <= 0)
 	{
-		// Log error
+		/* log error */
 		return INVALID_LEN;
 	}
 
 	uint8_t pat[len];
-	//generate pattern
+	/* generate pattern */
 
 	mem_status ret = SUCCESS;
 	size_t i = 0;
