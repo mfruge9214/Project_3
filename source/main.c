@@ -47,9 +47,11 @@ int main(void) {
 #endif
 
     /* Variable Declarations */
-    mem_block allocatedBlock;
+    mem_block allocatedBlock1;
+    mem_block allocatedBlock2;
     uint8_t RandomNums[LEN];
     mem_status result;
+
     /* Allocate memory */
     allocatedBlock.length = LEN;
     allocatedBlock.blockptr = allocateWords(allocatedBlock.length);

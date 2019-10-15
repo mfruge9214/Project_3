@@ -106,61 +106,55 @@ ifeq ($(MAKECMDGOALS), all)
 	PLATFORM := FB
 	CC := arm-none-eabi-gcc
 	CC_OPTIONS := -c -std=gnu99 -O0 -g -ffunction-sections -fdata-sections -fno-builtin -mcpu=cortex-m0plus -mthumb -DCPU_MKL25Z128VLK4 -D__USE_CMSIS $(INCLUDES)
-	CC_OPTIONS += -DFB_RUN -DSDK_DEBUGCONSOLE
+	CC_OPTIONS += -DBOARD -DSDK_DEBUGCONSOLE
 	LL := arm-none-eabi-gcc
 	LL_OPTIONS := -nostdlib -Xlinker -Map="debug/MyMakeProject.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m0plus -mthumb -T linkerfile.ld -o $(EXE)
 endif
 	
 	
-ifeq ($(MAKECMDGOALS), fb_run)
+ifeq ($(MAKECMDGOALS), KL25Z)
 	PLATFORM := FB
 	CC := arm-none-eabi-gcc
 	CC_OPTIONS := -c -std=gnu99 -O0 -g -ffunction-sections -fdata-sections -fno-builtin -mcpu=cortex-m0plus -mthumb -DCPU_MKL25Z128VLK4 -D__USE_CMSIS $(INCLUDES)
-	CC_OPTIONS += -DFB_RUN -DSDK_DEBUGCONSOLE
+	CC_OPTIONS += -DBOARD -DSDK_DEBUGCONSOLE
 	LL := arm-none-eabi-gcc
 	LL_OPTIONS := -nostdlib -Xlinker -Map="debug/MyMakeProject.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m0plus -mthumb -T linkerfile.ld -o $(EXE)
 endif
 
-ifeq ($(MAKECMDGOALS), pc_run)
+ifeq ($(MAKECMDGOALS), PC)
 	PLATFORM := PC
 	CC := gcc
 	CC_OPTIONS := -Wall -Werror $(PC_INCLUDES)
-	CC_OPTIONS += -DPC_RUN
+	CC_OPTIONS += -DPC
 	LL := gcc
 endif
 
-ifeq ($(MAKECMDGOALS), fb_debug)
-	PLATFORM := FB
-	CC := arm-none-eabi-gcc
-	CC_OPTIONS := -c -std=gnu99 -O0 -g -ffunction-sections -fdata-sections -fno-builtin -mcpu=cortex-m0plus -mthumb -DCPU_MKL25Z128VLK4 -D__USE_CMSIS $(INCLUDES)
-	CC_OPTIONS += -DFB_DEBUG -DSDK_DEBUGCONSOLE
-	LL := arm-none-eabi-gcc
-	LL_OPTIONS := -nostdlib -Xlinker -Map="debug/MyMakeProject.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m0plus -mthumb -T linkerfile.ld -o $(EXE)
-endif
+#ifeq ($(MAKECMDGOALS), fb_debug)
+#	PLATFORM := FB
+#	CC := arm-none-eabi-gcc
+#	CC_OPTIONS := -c -std=gnu99 -O0 -g -ffunction-sections -fdata-sections -fno-builtin -mcpu=cortex-m0plus -mthumb -DCPU_MKL25Z128VLK4 -D__USE_CMSIS $(INCLUDES)
+#	CC_OPTIONS += -DFB_DEBUG -DSDK_DEBUGCONSOLE
+#	LL := arm-none-eabi-gcc
+#	LL_OPTIONS := -nostdlib -Xlinker -Map="debug/MyMakeProject.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m0plus -mthumb -T linkerfile.ld -o $(EXE)
+#endif
 
-ifeq ($(MAKECMDGOALS), pc_debug)
-	PLATFORM := PC
-	CC := gcc
-	CC_OPTIONS := -Wall -Werror $(PC_INCLUDES)
-	CC_OPTIONS += -DPC_DEBUG
-	LL := gcc
-endif
+#ifeq ($(MAKECMDGOALS), pc_debug)
+#	PLATFORM := PC
+#	CC := gcc
+#	CC_OPTIONS := -Wall -Werror $(PC_INCLUDES)
+#	CC_OPTIONS += -DPC_DEBUG
+#	LL := gcc
+#endif
 
 # Main Targets
 all: $(EXE)
 	@echo "*** finished building ***"
 
-fb_run: $(EXE)
-	@echo "*** FINISHED BUILDING FB_RUN ***"
+KL25Z: $(EXE)
+	@echo "*** FINISHED BUILDING KL25Z Version ***"
 	
-pc_run: $(PC_EXE)
-	@echo "*** FINISHED BUILDING PC_RUN ***"
-	
-fb_debug: $(EXE)
-	@echo "*** FINISHED BUILDING FB_DEBUG ***"
-	
-pc_debug: $(PC_EXE)
-	@echo "*** FINISHED BUILDING PC_DEBUG ***"
+PC: $(PC_EXE)
+	@echo "*** FINISHED BUILDING PC Version ***"
 	
 ############################
 # Clean target
