@@ -10,11 +10,13 @@
 
 /* Structs */
 
-typedef enum mem_status
+typedef enum
 {
-	SUCCESS = 0,
-	FAIL
-}mem_status;
+	SUCCESS      =  0,
+	INVALID_LOC  = -1,
+	INVALID_LEN  = -2,
+	FAILURE      = -3
+} mem_status;
 
 
 /* Function Declarations */
@@ -45,7 +47,7 @@ void freeWords(uint32_t* src);
  *
  * @returns Contents of memory location specified
  ***********************************************/
-uint8_t* readMemory(uint32_t* loc, size_t len);
+uint8_t* displayMemory(uint32_t* loc, size_t len);
 
 /***********************************************
  * @brief	Write to an allocated byte of memory
@@ -67,7 +69,7 @@ mem_status writeMemory(uint32_t* loc, uint8_t value);
  *
  * @returns SUCCESS or FAIL
  ***********************************************/
-mem_status invertMem_block(uint32_t* loc, size_t len);
+mem_status invertBlock(uint32_t* loc, size_t len);
 
 /***********************************************
  * @brief	Generates a pseudo-random pattern and writes to a specified block of memory

@@ -1,7 +1,8 @@
 /* Includes */
 
 #include "memtest.h"
-#include "stdlib.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 
 uint32_t* allocateWords(size_t len)
@@ -32,5 +33,139 @@ void freeWords(uint32_t* src)
 	free(src);
 }
 
+uint8_t* displayMemory(uint32_t* loc, size_t len)
+{
+	if(!loc)
+	{
+		// Log error
+		return NULL;
+	}
+	if(len <= 0)
+	{
+		// Log error
+		return NULL;
+	}
 
+	//needs work
+
+	uint8_t x = *loc;
+	uint8_t * ptr = &x;
+	return ptr;
+}
+
+mem_status writeMemory(uint32_t* loc, uint8_t value)
+{
+	if(loc == NULL)
+	{
+		// Log error
+		return INVALID_LOC;
+	}
+
+	// Set value
+	*loc = value;
+
+	if(*loc != value)
+	{
+		// Log failure
+		return FAILURE;
+	}
+	// Log success
+	return SUCCESS;
+}
+
+mem_status invertBlock(uint32_t* loc, size_t len)
+{
+	if(loc == NULL)
+	{
+		// Log error
+		return INVALID_LOC;
+	}
+	if(len <= 0)
+	{
+		// Log error
+		return INVALID_LEN;
+	}
+
+	size_t i = 0;
+	while(i < len)
+	{
+		uint8_t val = *loc;
+		val = ~val;
+		*loc = val;
+
+		loc++;
+		i++;
+	}
+
+	return SUCCESS;
+}
+
+mem_status writePattern(uint32_t* loc, size_t len, int8_t seed)
+{
+	if(loc == NULL)
+	{
+		// Log error
+		return INVALID_LOC;
+	}
+	if(len <= 0)
+	{
+		// Log error
+		return INVALID_LEN;
+	}
+
+	uint8_t pat[len];
+	//generate pattern
+
+	mem_status ret = SUCCESS;
+	size_t i = 0;
+	while(i < len)
+	{
+		ret = writeMemory(loc, pat[i]);
+		if(ret != SUCCESS)
+			break;
+	}
+	return ret;
+}
+
+uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed)
+{
+	if(loc == NULL)
+	{
+		/* log error */
+		return NULL;
+	}
+	if(len <= 0)
+	{
+		/* log error */
+		return NULL;
+	}
+
+	uint32_t * mismatch[len]; // Used to store addresses of mismatches
+
+	uint8_t pat[len];
+
+	/* generate pattern - store in pat */
+
+	size_t i = 0, j = 0;
+	while(i < len)
+	{
+		if(*loc != pat[i])
+		{
+			mismatch[j] = loc;
+			j++;
+		}
+		i++;
+		loc++;
+	}
+	mismatch[j] = 0; // End mismatch array with 0, check for this upon return
+	return mismatch[0];
+}
+
+uint32_t* getAddress(uint32_t* offset)
+{
+	// not correct
+	uint32_t offset_val = *offset;
+	uint32_t * addr = offset + offset_val;
+	return addr;
+}
 
