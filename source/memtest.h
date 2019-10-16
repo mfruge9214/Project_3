@@ -18,6 +18,12 @@ typedef enum
 	FAILURE      = -3
 } mem_status;
 
+typedef struct
+{
+	uint32_t * blockptr;
+	uint8_t length;
+} mem_block;
+
 
 /* Function Declarations */
 

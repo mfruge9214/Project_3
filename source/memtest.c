@@ -35,27 +35,9 @@ void freeWords(uint32_t* src)
 
 }
 
-
-mem_status writeMemory(uint32_t* loc, uint8_t value)
-{
-	// Write val to loc, determine if it was successful, and return result
-	mem_status result;
-	*loc = value;
-
-	if(*loc == value)
-	{
-		result = SUCCESS;
-	}
-	else
-	{
-		result = FAIL;
-	}
-	return result;
-}
-
 uint8_t* displayMemory(uint32_t* loc, size_t len)
 {
-	if(!loc)
+	if(loc == NULL)
 	{
 		/* log error */
 		return NULL;
