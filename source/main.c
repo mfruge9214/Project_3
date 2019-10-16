@@ -48,14 +48,14 @@ int main(void) {
 
     /* Variable Declarations */
     mem_block allocatedBlock1;
-    mem_block allocatedBlock2;
+//    mem_block allocatedBlock2;
     uint8_t RandomNums[LEN];
     mem_status result;
 
     /* Allocate memory */
-    allocatedBlock.length = LEN;
-    allocatedBlock.blockptr = allocateWords(allocatedBlock.length);
-    if(allocatedBlock.blockptr)
+    allocatedBlock1.length = LEN;
+    allocatedBlock1.blockptr = allocateWords(allocatedBlock1.length);
+    if(allocatedBlock1.blockptr)
     {
     	printf("Memory Allocated\n");
     }
@@ -71,15 +71,15 @@ int main(void) {
 
     /* Write the pattern to memory */
 
-    result = writeMemory(allocatedBlock.blockptr, RandomNums[0]);
+    result = writeMemory(allocatedBlock1.blockptr, RandomNums[0]);
     if(!result)
     {
     	printf("Contents of memory verified\n");
     }
 
     /* Free allocated Block */
-    freeWords(allocatedBlock.blockptr);
-    if(!allocatedBlock.blockptr)
+    freeWords(allocatedBlock1.blockptr);
+    if(!allocatedBlock1.blockptr)
     {
     	printf("Memory Freed\n");
     }

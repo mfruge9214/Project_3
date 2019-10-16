@@ -8,6 +8,7 @@ Logger* programLogger;
 /* Private Variable */
 static char LogMsgBuffer[512];
 
+
 void logInit()
 {
 	programLogger->enabled = false;
@@ -70,11 +71,11 @@ void logData(uint32_t* loc, size_t len)
 	for(i=0; i<len; i++)
 	{
 #ifdef PC
-		printf("Address: 0x%04X		Value: 0x%04X \n", currLoc, *currLoc);
+		printf("Address: 0x%p		Value: 0x%04X \n", currLoc, *currLoc);
 #endif
 
 #ifdef BOARD
-		PRINTF("Address: 0x%04X		Value: 0x%04X \n", currLoc, *currLoc);
+		PRINTF("Address: 0x%p		Value: 0x%04X \n", currLoc, *currLoc);
 #endif
 
 		currLoc++;
@@ -91,7 +92,7 @@ void logString()
 	}
 
 	size_t i = 0;
-	while(LogMsgBuffer[i] != '/0')
+	while(LogMsgBuffer[i] != '\n')
 	{
 #ifdef PC
 		printf("%c", LogMsgBuffer[i]);
