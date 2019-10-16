@@ -31,8 +31,7 @@ void freeWords(uint32_t* src)
 		// Add logging warning that no memory has been allocated to loc
 	}
 	free(src);
-	printf("Freed\n");
-
+	// log success
 }
 
 uint8_t* displayMemory(uint32_t* loc, size_t len)
@@ -99,7 +98,7 @@ mem_status invertBlock(uint32_t* loc, size_t len)
 	return SUCCESS;
 }
 
-mem_status writePattern(uint32_t* loc, size_t len, int8_t seed)
+mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed)
 {
 	if(loc == NULL)
 	{
@@ -112,16 +111,24 @@ mem_status writePattern(uint32_t* loc, size_t len, int8_t seed)
 		return INVALID_LEN;
 	}
 
+	uint32_t * temp_ptr = loc;
+
 	uint8_t pat[len];
-	/* generate pattern */
+	createPattern(len, seed, pat);
 
 	mem_status ret = SUCCESS;
 	size_t i = 0;
 	while(i < len)
 	{
-		ret = writeMemory(loc, pat[i]);
+		ret = writeMemory(temp_ptr, pat[i]);
 		if(ret != SUCCESS)
+		{
+			printf("writeMemory failed with code %d\n", ret);
 			break;
+		}
+
+		temp_ptr++;
+		i++;
 	}
 	return ret;
 }

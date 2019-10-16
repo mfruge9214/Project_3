@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "pattern.h"
 
 
 /* Definitions */
@@ -21,7 +22,7 @@ typedef enum
 typedef struct
 {
 	uint32_t * blockptr;
-	uint8_t length;
+	size_t length;
 } mem_block;
 
 
@@ -88,7 +89,7 @@ mem_status invertBlock(uint32_t* loc, size_t len);
  *
  * @returns SUCCESS or FAIL
  ***********************************************/
-mem_status writePattern(uint32_t* loc, size_t len, int8_t seed);
+mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed);
 
 /***********************************************
  * @brief	Verifies pattern at address in memory by generating pattern from seed, creating a

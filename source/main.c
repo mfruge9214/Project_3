@@ -47,42 +47,43 @@ int main(void) {
 #endif
 
     /* Variable Declarations */
-    mem_block allocatedBlock1;
-//    mem_block allocatedBlock2;
-    uint8_t RandomNums[LEN];
+    mem_block block1;
     mem_status result;
+    uint8_t seed = 45;
+    uint32_t * val_ptr;
+    uint8_t temp;
+
 
     /* Allocate memory */
-    allocatedBlock1.length = LEN;
-    allocatedBlock1.blockptr = allocateWords(allocatedBlock1.length);
-    if(allocatedBlock1.blockptr)
-    {
+    block1.length = LEN;
+    block1.blockptr = allocateWords(block1.length);
+    if(block1.blockptr != NULL)
     	printf("Memory Allocated\n");
-    }
 
-    /* Create and return the pattern */
-    createPattern(LEN, 45, RandomNums);
-
-    int i;
-    for(i=0; i<LEN; i++)
+    /* Write pattern to memory */
+    result = writePattern(block1.blockptr, block1.length, seed);
+    if(result != SUCCESS)
     {
-    	printf("Value: %d		Index: %d\n", RandomNums[i], i);
+    	printf("Write Pattern Error\n");
+        freeWords(block1.blockptr);
+        printf("Memory Freed\n");
+        while(1);
     }
+    printf("\nPattern Written Successfully!\n");
 
-    /* Write the pattern to memory */
-
-    result = writeMemory(allocatedBlock1.blockptr, RandomNums[0]);
-    if(!result)
+    /* Display memory contents */
+//    val_ptr = displayMemory(block1.blockptr, block1.length);
+    val_ptr = block1.blockptr;
+    for(uint8_t i = 0; i < block1.length; i++)
     {
-    	printf("Contents of memory verified\n");
+    	temp = *val_ptr;
+    	printf("Byte %u = %u\n",i,temp);
+    	val_ptr++;
     }
+    printf("Pattern Fully Displayed\n");
 
     /* Free allocated Block */
-    freeWords(allocatedBlock1.blockptr);
-    if(!allocatedBlock1.blockptr)
-    {
-    	printf("Memory Freed\n");
-    }
-
+    freeWords(block1.blockptr);
+    printf("\nMemory Freed\n");
 }
 
