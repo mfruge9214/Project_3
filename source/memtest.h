@@ -105,4 +105,4 @@ uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed);
  *
  * @returns Fully addressable memory location
  ***********************************************/
-uint32_t* getAddress(uint32_t* offset);
+uint32_t* getAddress(uint32_t* loc, uint32_t offset);

@@ -9,7 +9,6 @@ uint32_t* allocateWords(size_t len)
 {
 	if(len > MEM_ALLOCATION_LIMIT)
 	{
-
 		// Add logger message
 		return NULL;
 	}
@@ -158,10 +157,9 @@ uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed)
 	return mismatch[0];
 }
 
-uint32_t* getAddress(uint32_t* offset)
+uint32_t* getAddress(uint32_t* loc, uint32_t offset)
 {
-	uint32_t offset_val = *offset;
-	uint32_t * addr = offset + offset_val;
+	uint32_t * addr = loc + offset;
 	return addr;
 }
 
