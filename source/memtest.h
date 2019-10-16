@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "pattern.h"
 
 
 /* Definitions */
@@ -10,17 +11,19 @@
 
 /* Structs */
 
-typedef enum mem_status
+typedef enum
 {
-	SUCCESS = 0,
-	FAIL
-}mem_status;
+	SUCCESS      =  0,
+	INVALID_LOC  = -1,
+	INVALID_LEN  = -2,
+	FAILURE      = -3
+} mem_status;
 
-typedef struct mem_block
+typedef struct
 {
-	uint32_t* blockptr;
-	uint8_t length;
-}mem_block;
+	uint32_t * blockptr;
+	size_t length;
+} mem_block;
 
 
 /* Function Declarations */
@@ -51,7 +54,7 @@ void freeWords(uint32_t* src);
  *
  * @returns Contents of memory location specified
  ***********************************************/
-uint8_t* readMemory(uint32_t* loc, size_t len);
+uint8_t* displayMemory(uint32_t* loc, size_t len);
 
 /***********************************************
  * @brief	Write to an allocated byte of memory
@@ -73,7 +76,7 @@ mem_status writeMemory(uint32_t* loc, uint8_t value);
  *
  * @returns SUCCESS or FAIL
  ***********************************************/
-mem_status invertMem_block(uint32_t* loc, size_t len);
+mem_status invertBlock(uint32_t* loc, size_t len);
 
 /***********************************************
  * @brief	Generates a pseudo-random pattern and writes to a specified block of memory
@@ -86,7 +89,7 @@ mem_status invertMem_block(uint32_t* loc, size_t len);
  *
  * @returns SUCCESS or FAIL
  ***********************************************/
-mem_status writePattern(uint32_t* loc, size_t len, int8_t seed);
+mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed);
 
 /***********************************************
  * @brief	Verifies pattern at address in memory by generating pattern from seed, creating a
@@ -105,9 +108,8 @@ uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed);
 /***********************************************
  * @brief	Calculates fully addressable memory location from an offset and a known base location
  *
- * @param[in] base	Base address to use in calculation
- * @param[in] len	Offset from base
+ * @param[in] len	Offset from known memory location
  *
  * @returns Fully addressable memory location
  ***********************************************/
-uint32_t* getAddress(uint32_t* base, uint32_t* offset);
+uint32_t* getAddress(uint32_t* loc, uint32_t offset);

@@ -42,6 +42,6 @@ void createPattern(size_t len, uint8_t seed, uint8_t* genList)
 		next_state = (curr_state << 1) | (feedback & 1);
 		genList[i] = next_state;
 		curr_state = next_state;
+		printf("Val %u = %u\n", i, genList[i]);
 	}
-
 }
