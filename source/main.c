@@ -11,8 +11,7 @@
 #include "logger.h"
 #include <stdio.h>
 
-
-#if defined(FB_RUN) || defined(FB_DEBUG)
+#ifdef BOARD
 #include "board.h"
 #include "peripherals.h"
 #include "pin_mux.h"
@@ -21,15 +20,12 @@
 #include "fsl_debug_console.h"
 #endif
 
-#if defined(PC_RUN) || defined(PC_DEBUG)
-
-#endif
 
 
 
 int main(void) {
 
-#if defined(FB_RUN)  || defined(FB_DEBUG)
+#if defined(BOARD)
 	BOARD_InitBootPins();
 	BOARD_InitBootClocks();
     BOARD_InitBootPeripherals();
@@ -39,7 +35,7 @@ int main(void) {
     /* Initialize LEDs */
     initLEDs();
 
-    PRINTF("FREEDOMBOARD RUN\n");
+    printf("FREEDOMBOARD RUN\n");
 #endif
 
 #ifdef PC_RUN
