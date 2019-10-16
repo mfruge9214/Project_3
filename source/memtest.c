@@ -160,7 +160,6 @@ uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed)
 
 uint32_t* getAddress(uint32_t* offset)
 {
-	// not correct
 	uint32_t offset_val = *offset;
 	uint32_t * addr = offset + offset_val;
 	return addr;
