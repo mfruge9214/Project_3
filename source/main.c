@@ -6,6 +6,11 @@
  */
 #include "main.h"
 #include "flash.h"
+#include "memtest.h"
+#include "pattern.h"
+#include "logger.h"
+#include <stdio.h>
+
 
 #if defined(FB_RUN) || defined(FB_DEBUG)
 #include "board.h"
@@ -17,7 +22,7 @@
 #endif
 
 #if defined(PC_RUN) || defined(PC_DEBUG)
-#include <stdio.h>
+
 #endif
 
 
@@ -41,36 +46,43 @@ int main(void) {
     printf("PC RUN\n");
 #endif
 
+    /* Variable Declarations */
+    mem_block allocatedBlock1;
+//    mem_block allocatedBlock2;
+    uint8_t RandomNums[LEN];
+    mem_status result;
 
-
-    uint8_t cycles = 0;
-    uint32_t time_on, time_off;
-    uint8_t lookup_idx, num_blinks;
-    num_blinks = 0;
-    enum Color color = RED;
-
-    /* Cycles through table 10 times */
-    while(cycles < CYCLES_THRU_TABLE)
+    /* Allocate memory */
+    allocatedBlock1.length = LEN;
+    allocatedBlock1.blockptr = allocateWords(allocatedBlock1.length);
+    if(allocatedBlock1.blockptr)
     {
-    	/* Controls the Flashing */
-    	for(lookup_idx = 0; lookup_idx < TABLE_ELEMENTS; lookup_idx += 2)
-    	{
-    		time_on = timing_lookup[lookup_idx];
-    		time_off = timing_lookup[lookup_idx+1];
-    		blinkLED(color, time_on, time_off);
-    		num_blinks++;
-    		/* Time to switch colors */
-    		if(num_blinks % 3 == 0)
-    		{
-    			if(color == RED) color = GREEN;
-    			else if(color == GREEN) color = BLUE;
-    			else if(color == BLUE) color = RED;
-    		}
-
-    	}
-    	cycles++;
+    	printf("Memory Allocated\n");
     }
 
+    /* Create and return the pattern */
+    createPattern(LEN, 45, RandomNums);
+
+    int i;
+    for(i=0; i<LEN; i++)
+    {
+    	printf("Value: %d		Index: %d\n", RandomNums[i], i);
+    }
+
+    /* Write the pattern to memory */
+
+    result = writeMemory(allocatedBlock1.blockptr, RandomNums[0]);
+    if(!result)
+    {
+    	printf("Contents of memory verified\n");
+    }
+
+    /* Free allocated Block */
+    freeWords(allocatedBlock1.blockptr);
+    if(!allocatedBlock1.blockptr)
+    {
+    	printf("Memory Freed\n");
+    }
 
 }
 

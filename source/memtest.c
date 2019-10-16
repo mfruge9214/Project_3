@@ -14,6 +14,7 @@ uint32_t* allocateWords(size_t len)
 	}
 
 	uint32_t* address = (uint32_t*) malloc(len);
+
 	if(!address)
 	{
 		return NULL;
@@ -27,9 +28,29 @@ void freeWords(uint32_t* src)
 {
 	if(src == NULL)
 	{
-		// Add logging warning that no memory has been allocated there
+		// Add logging warning that no memory has been allocated to loc
 	}
 	free(src);
+	printf("Freed\n");
+
+}
+
+
+mem_status writeMemory(uint32_t* loc, uint8_t value)
+{
+	// Write val to loc, determine if it was successful, and return result
+	mem_status result;
+	*loc = value;
+
+	if(*loc == value)
+	{
+		result = SUCCESS;
+	}
+	else
+	{
+		result = FAIL;
+	}
+	return result;
 }
 
 uint8_t* displayMemory(uint32_t* loc, size_t len)
