@@ -115,18 +115,23 @@ mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed)
 
 	uint8_t pat[len];
 	createPattern(len, seed, pat);
+	printf("Pattern Generated\n\r");
 
 	mem_status ret = SUCCESS;
 	size_t i = 0;
 	while(i < len)
 	{
 		ret = writeMemory(temp_ptr, pat[i]);
+		printf("Wrote memory address %p with value %d\n\r", temp_ptr, *temp_ptr);
 		if(ret != SUCCESS)
 		{
 			printf("writeMemory failed with code %d\n", ret);
 			break;
 		}
-
+		if(i == 15)
+		{
+			break;
+		}
 		temp_ptr++;
 		i++;
 	}

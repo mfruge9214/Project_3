@@ -10,8 +10,8 @@ void logInit()
 {
 	LogEnable = false;
 	LogMessage = "Log Init\n";
-
-	printf("%s\n", LogMessage);
+	printf("Logger Test\n\r");
+//	printf("%s\n", LogMessage);
 }
 
 
@@ -33,7 +33,7 @@ void logEnable()
 
 void logDisable()
 {
-	LogMessage = "Disabling Logger";
+	LogMessage = "Disabling Logger\n\r";
 	if(LogEnable)
 	{
 		LogEnable = false;
@@ -63,7 +63,7 @@ void logData(uint32_t* loc, size_t len)
 
 	for(i=0; i<len; i++)
 	{
-		printf("Address: 0x%p		Value: 0x%04X \n", currLoc, *currLoc);
+		printf("Address: 0x%p		Value: 0x%04X \n\r", currLoc, *currLoc);
 		currLoc++;
 	}
 
@@ -77,7 +77,7 @@ void logString(char* message)
 		return;
 	}
 
-	printf("%s\n", message);
+	printf("%s\n\r", message);
 
 
 }
@@ -93,7 +93,7 @@ void logInteger(uint32_t value)
 		return;
 	}
 
-	printf("%d", value);
+	printf("%d\n\r", value);
 
 }
 
