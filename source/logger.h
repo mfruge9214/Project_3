@@ -1,8 +1,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 /* Create Logging Structures */
+/* Created in preparation for later assignments */
 
 typedef enum ModuleID
 {
@@ -20,20 +22,7 @@ typedef enum Priority_Lvl
 }Priority_Lvl;
 
 
-typedef struct LogMsg
-{
-	ModuleID moduleID;
-	Priority_Lvl priority;
-	// Include a timestamp
-	char* msg;
-} LogMsg;
 
-
-typedef struct Logger
-{
-	LogMsg* message;
-	bool enabled;
-}Logger;
 
 
 /***********************************************
@@ -81,7 +70,7 @@ void logData(uint32_t* loc, size_t len);
  *
  * @returns Contents of memory location specified
  ***********************************************/
-void logString();
+void logString(char* message);
 
 /***********************************************
  * @brief	Read a segment of memory

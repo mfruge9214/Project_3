@@ -2,7 +2,7 @@
 
 
 /* Private Variable */
-static string LogMessage;
+static char* LogMessage;
 static bool LogEnable;
 
 
@@ -23,7 +23,7 @@ void logEnable()
 	}
 	else
 	{
-		programLogger->enabled = true;
+		LogEnable = true;
 		LogMessage = "Logger Enabled\n";
 	}
 
@@ -34,9 +34,9 @@ void logEnable()
 void logDisable()
 {
 	LogMessage = "Disabling Logger";
-	if(LogEnabled)
+	if(LogEnable)
 	{
-		programLogger->enabled = false;
+		LogEnable = false;
 	}
 }
 
@@ -60,7 +60,7 @@ void logData(uint32_t* loc, size_t len)
 
 	// Access memory directly, or read from the same buffer every time?
 	// Direct access: Easier, misses memory checks (included in the memory test suite)
-	// Fill buffer and read: More consistant, more work
+
 	for(i=0; i<len; i++)
 	{
 		printf("Address: 0x%p		Value: 0x%04X \n", currLoc, *currLoc);
@@ -70,7 +70,7 @@ void logData(uint32_t* loc, size_t len)
 }
 
 
-void logString(string message)
+void logString(char* message)
 {
 	if(!LogEnable)
 	{

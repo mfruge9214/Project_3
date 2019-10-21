@@ -47,13 +47,21 @@ int main(void) {
     mem_block block1;
     mem_status result;
     uint8_t seed = 45;
-    uint32_t * val_ptr;
-    uint8_t temp;
+//    uint32_t * val_ptr;
+//    uint8_t temp;
+
+    /* Logger Test*/
+    char TestMsg[] = "This is a logger test\n";
+    logEnable();
+    logString(TestMsg);
 
 
     /* Allocate memory */
     block1.length = LEN;
-    block1.blockptr = allocateWords(block1.length);
+
+    /* When I include this sizeof(), we dont segfault (for obvious reasons). When it is not included, there is a segfault after accessing index 15 */
+
+    block1.blockptr = allocateWords(block1.length * sizeof(uint32_t));
     if(block1.blockptr != NULL)
     	printf("Memory Allocated\n");
 
@@ -70,14 +78,9 @@ int main(void) {
 
     /* Display memory contents */
 
-    val_ptr = block1.blockptr;
-    for(uint8_t i = 0; i < block1.length; i++)
-    {
-    	temp = *val_ptr;
-    	printf("Byte %u = %u\n",i,temp);
-    	val_ptr++;
-    }
+    logData(block1.blockptr, 16);
     printf("Pattern Fully Displayed\n");
+
 
     /* Free allocated Block */
     freeWords(block1.blockptr);
