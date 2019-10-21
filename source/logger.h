@@ -6,6 +6,14 @@
 /* Create Logging Structures */
 /* Created in preparation for later assignments */
 
+#define BUF_SIZE	50
+
+#ifdef BOARD
+#include "fsl_debug_console.h"
+#define printf	PRINTF
+#endif
+
+
 typedef enum ModuleID
 {
 	INIT,
@@ -82,3 +90,4 @@ void logString(char* message);
  * @returns Contents of memory location specified
  ***********************************************/
 void logInteger();
+

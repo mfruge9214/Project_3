@@ -10,9 +10,6 @@
 #define CYCLES_THRU_TABLE	10
 #define TABLE_ELEMENTS		20
 
-#ifdef BOARD
-#define printf	PRINTF
-#endif
 
 #define LEN		16
 
