@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 
-#if defined(FB_RUN) || defined(FB_DEBUG)
+#ifdef BOARD
 #include "board.h"
 #include "peripherals.h"
 #include "pin_mux.h"
@@ -21,15 +21,12 @@
 #include "fsl_debug_console.h"
 #endif
 
-#if defined(PC_RUN) || defined(PC_DEBUG)
-
-#endif
 
 
 
 int main(void) {
 
-#if defined(FB_RUN)  || defined(FB_DEBUG)
+#ifdef BOARD
 	BOARD_InitBootPins();
 	BOARD_InitBootClocks();
     BOARD_InitBootPeripherals();
@@ -39,10 +36,10 @@ int main(void) {
     /* Initialize LEDs */
     initLEDs();
 
-    PRINTF("FREEDOMBOARD RUN\n");
+    printf("FREEDOMBOARD RUN\n");
 #endif
 
-#ifdef PC_RUN
+#ifdef PC
     printf("PC RUN\n");
 #endif
 
@@ -72,7 +69,7 @@ int main(void) {
     printf("\nPattern Written Successfully!\n");
 
     /* Display memory contents */
-//    val_ptr = displayMemory(block1.blockptr, block1.length);
+
     val_ptr = block1.blockptr;
     for(uint8_t i = 0; i < block1.length; i++)
     {
