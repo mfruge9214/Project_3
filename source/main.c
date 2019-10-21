@@ -63,12 +63,12 @@ int main(void) {
     int i=0;
     uint32_t* temp = block1.blockptr;
 
-    for(i=0; i<block1.length; i++)
-    {
-    	writeMemory(temp, 0);
-    	printf("Wrote address 0x%p\n\r", temp);
-    	temp++;
-    }
+//    for(i=0; i<block1.length; i++)
+//    {
+//    	writeMemory(temp, 0);
+//    	printf("Wrote address 0x%p\n\r", temp);
+//    	temp++;
+//    }
 
     /* Check that memory was allocated */
     if(block1.blockptr != NULL)

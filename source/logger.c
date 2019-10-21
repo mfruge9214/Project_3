@@ -2,16 +2,12 @@
 
 
 /* Private Variable */
-static char* LogMessage;
 static bool LogEnable;
 
 
 void logInit()
 {
 	LogEnable = false;
-	LogMessage = "Log Init\n";
-	printf("Logger Test\n\r");
-//	printf("%s\n", LogMessage);
 }
 
 
@@ -19,21 +15,20 @@ void logEnable()
 {
 	if(LogEnable)
 	{
-		LogMessage = "Logger already Enabled\n";
+		printf("Log already Enabled");
 	}
 	else
 	{
 		LogEnable = true;
-		LogMessage = "Logger Enabled\n";
+		printf("Log Enabled");
 	}
 
-	printf("%s\n", LogMessage);
 }
 
 
 void logDisable()
 {
-	LogMessage = "Disabling Logger\n\r";
+	strcpy(LogMessage, "Disabling Logger");
 	if(LogEnable)
 	{
 		LogEnable = false;
@@ -85,8 +80,6 @@ void logString(char* message)
 
 void logInteger(uint32_t value)
 {
-	// Same thing here, take the integer as a parameter? read it from the buffer?
-
 	/* Ensure Logger Enabled */
 	if(!LogEnable)
 	{
