@@ -52,9 +52,9 @@ void freeWords(uint32_t* src);
  *
  * @param[in] len	Amount of bytes to read
  *
- * @returns Contents of memory location specified
+ * @param[out] ret  Contents of memory specified by inputs
  ***********************************************/
-uint8_t* displayMemory(uint32_t* loc, size_t len);
+void displayMemory(uint32_t* loc, size_t len, uint8_t * ret);
 
 /***********************************************
  * @brief	Write to an allocated byte of memory
@@ -101,9 +101,9 @@ mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed);
  *
  * @param[in] seed	Value used by pattern generator to create the pattern
  *
- * @returns List of memory addresses that did not match the pattern
+ * @param[out] ret  List of memory addresses where memory does not match
  ***********************************************/
-uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed);
+void verifyPattern(uint32_t* loc, size_t len, int8_t seed, uint32_t ** ret);
 
 /***********************************************
  * @brief	Calculates fully addressable memory location from an offset and a known base location
