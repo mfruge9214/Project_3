@@ -34,24 +34,21 @@ void freeWords(uint32_t* src)
 	// log success
 }
 
-uint8_t* displayMemory(uint32_t* loc, size_t len)
+void displayMemory(uint32_t* loc, size_t len, uint8_t * ret)
 {
-	if(loc == NULL)
+	if((loc != NULL) && (len > 0))
 	{
-		/* log error */
-		return NULL;
+		uint32_t * mem_ptr = loc;
+		for(size_t i = 0; i < len; i++)
+		{
+			ret[i] = *mem_ptr;
+			mem_ptr++;
+		}
 	}
-	if(len <= 0)
+	else
 	{
-		/* log error */
-		return NULL;
+		//log error
 	}
-
-	//needs work
-
-	uint8_t x = *loc;
-	uint8_t * ptr = &x;
-	return ptr;
 }
 
 mem_status writeMemory(uint32_t* loc, uint8_t value)
@@ -133,38 +130,31 @@ mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed)
 	return ret;
 }
 
-uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed)
+void verifyPattern(uint32_t* loc, size_t len, int8_t seed, uint32_t ** ret)
 {
-	if(loc == NULL)
+	if((loc != NULL) && (len > 0))
 	{
-		/* log error */
-		return NULL;
-	}
-	if(len <= 0)
-	{
-		/* log error */
-		return NULL;
-	}
+		uint8_t pat[len];
+		/* generate pattern - store in pat */
 
-	uint32_t * mismatch[len]; // Used to store addresses of mismatches
-
-	uint8_t pat[len];
-
-	/* generate pattern - store in pat */
-
-	size_t i = 0, j = 0;
-	while(i < len)
-	{
-		if(*loc != pat[i])
+		uint32_t * mem_ptr = loc;
+		size_t i = 0;
+		while(i < len)
 		{
-			mismatch[j] = loc;
-			j++;
+			if(*mem_ptr != pat[i])
+			{
+				*ret = mem_ptr;
+				ret++;
+			}
+			i++;
+			mem_ptr++;
 		}
-		i++;
-		loc++;
+		*ret = 0; // End mismatch array with 0, check for this upon return
 	}
-	mismatch[j] = 0; // End mismatch array with 0, check for this upon return
-	return mismatch[0];
+	else
+	{
+		//log error
+	}
 }
 
 uint32_t* getAddress(uint32_t* loc, uint32_t offset)
