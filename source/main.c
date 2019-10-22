@@ -36,11 +36,11 @@ int main(void) {
     /* Initialize LEDs */
     initLEDs();
 
-    printf("FREEDOMBOARD RUN\n\r");
+//    printf("FREEDOMBOARD RUN\n\r");
 #endif
 
 #ifdef PC
-    printf("PC RUN\n");
+//    printf("PC RUN\n");
 #endif
 
     /* Variable Declarations */
@@ -51,48 +51,56 @@ int main(void) {
 //    uint8_t temp;
 
     /* Logger Test*/
-    char TestMsg[] = "This is a logger test\n";
-    logInit();
-    logEnable();
-    logString(TestMsg);
+//    char TestMsg[] = "This is a logger test\n";
+//    logInit();
+//    logEnable();
+//    logString(TestMsg);
 
+    /* Beginning of Memory Tests */
+
+    BlueLEDOn();
 
     /* Allocate memory */
     block1.length = LEN;
     block1.blockptr = allocateWords(block1.length * sizeof(uint32_t));
-    int i=0;
-    uint32_t* temp = block1.blockptr;
 
-//    for(i=0; i<block1.length; i++)
-//    {
-//    	writeMemory(temp, 0);
-//    	printf("Wrote address 0x%p\n\r", temp);
-//    	temp++;
-//    }
 
     /* Check that memory was allocated */
     if(block1.blockptr != NULL)
-    	printf("Memory Allocated\n\r");
+    {
+    	logString("Memory Allocated");
+    }
+    else
+    {
+    	RedLEDOn();
+    	logString("Error Allocating Memory");
+    	return -1;
+    }
+//    	printf("Memory Allocated\n\r");
 
     /* Write pattern to memory */
     result = writePattern(block1.blockptr, block1.length, seed);
     if(result != SUCCESS)
     {
-    	printf("Write Pattern Error\n\r");
+//    	printf("Write Pattern Error\n\r");
+    	logString("Write Pattern Error\n\r");
         freeWords(block1.blockptr);
-        printf("Memory Freed\n\r");
+        logString("Memory Freed\n\r");
+//        printf("Memory Freed\n\r");
         while(1);
     }
-    printf("\nPattern Written Successfully!\n\r");
+//    printf("\nPattern Written Successfully!\n\r");
 
     /* Display memory contents */
 
     logData(block1.blockptr, 16);
-    printf("Pattern Fully Displayed\n\r");
+//    printf("Pattern Fully Displayed\n\r");
+    logString("Pattern Fully Displayed\n\r");
 
 
     /* Free allocated Block */
     freeWords(block1.blockptr);
-    printf("\nMemory Freed\n\r");
+    logString("Memory Freed\n\r");
+//    printf("\nMemory Freed\n\r");
 }
 

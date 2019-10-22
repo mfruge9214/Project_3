@@ -28,7 +28,7 @@ void logEnable()
 
 void logDisable()
 {
-	strcpy(LogMessage, "Disabling Logger");
+	printf("Disabling Logger");
 	if(LogEnable)
 	{
 		LogEnable = false;

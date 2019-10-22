@@ -2,9 +2,10 @@
 
 
 
+
 void initLEDs()
 {
-#if defined(FB_RUN)  || defined(FB_DEBUG)
+#ifdef BOARD
 	/* Wanna see if this works */
 	/* Initialize LEDS to on */
 	LED_RED_INIT(LED_ON);
@@ -20,6 +21,27 @@ void initLEDs()
 #endif
 }
 
+
+void RedLEDOn()
+{
+	LED_RED_ON();
+	LED_GREEN_OFF();
+	LED_BLUE_OFF();
+}
+
+void BlueLEDOn()
+{
+	LED_RED_OFF();
+	LED_GREEN_OFF();
+	LED_BLUE_ON();
+}
+
+void GreenLEDOn()
+{
+	LED_RED_OFF();
+	LED_GREEN_ON();
+	LED_BLUE_OFF();
+}
 /* BlinkLED: Executes 1 On, delay, Off, delay */
 void blinkLED(enum Color color, uint32_t time_on, uint32_t time_off)
 {
