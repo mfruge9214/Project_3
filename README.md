@@ -9,8 +9,8 @@ Team Members: Mike Fruge and Mark Hinkle
 Repo Description:
  This repository contains all of the project requirements for Project 3 of PES. 
  The most significant module is the project itself, containing the following source files: (main.c, main.h, logger.c, logger.h, memtest.c, memtest.h, flash.c, flash.h, pattern.c, and pattern.h). In addition to these sources files is a custom MakeFile that allows the user to select between building an executable for the PC or for the Freedom Development Board. The remaining files in the project are made by the developers at NXP.
- This repo also contains diagrams outlining the Activity and Sequency of our program.
- Lastly this repo contains a PDF containing all of our code as well as this README.
+ This repo also contains UML diagrams outlining the Activity and Sequence of our program.
+
  
  Observations:
   The most significant challenge was understanding the allocation and access to memory used in the memtests. Several of the function prototpes were needed to be rewritten in order to achieve the desired functionality. The following functions were changed:
