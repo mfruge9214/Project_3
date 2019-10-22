@@ -1,8 +1,7 @@
 /*
- * main.h
- *
- *  Created on: 22.07.2017
- *      Author: Erich Styger Local
+ * File: main.h
+ * Description: This file defines macros and function prototypes for main
+ * Authors: Mike Fruge and Mark Hinkle
  */
 
 #include <stdint.h>

@@ -1,9 +1,10 @@
 /*
- * main.c
- *
- *  Created on: 09/28/19
- *      Author:
+ * File: main.c
+ * Description: This file runs the desired program for PES Project 3
+ * Authors: Mike Fruge and Mark Hinkle
+ * Tools: GCC99 Library & GNU Toolchain
  */
+
 #include "main.h"
 #include "flash.h"
 #include "memtest.h"

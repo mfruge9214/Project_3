@@ -1,5 +1,10 @@
-#include "logger.h"
+/*
+ * File: logger.c
+ * Description: This file handles the logger functionality for the program
+ * Authors: Mike Fruge and Mark Hinkle
+ */
 
+#include "logger.h"
 
 /* Private Variable */
 static bool LogEnable;

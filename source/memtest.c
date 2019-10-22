@@ -1,4 +1,8 @@
-/* Includes */
+/*
+ * File: memtest.c
+ * Description: This file handles the memory functions for the project
+ * Authors: Mike Fruge and Mark Hinkle
+ */
 
 #include "memtest.h"
 #include "logger.h"

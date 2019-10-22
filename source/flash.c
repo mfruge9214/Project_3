@@ -1,8 +1,12 @@
+/*
+ * File: flash.c
+ * Description: This file handles the LED functionality on the KL25Z
+ * Authors: Mike Fruge and Mark Hinkle
+ */
+
+
 #include "flash.h"
 #include "logger.h"
-
-
-
 
 void initLEDs()
 {

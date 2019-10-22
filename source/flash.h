@@ -1,7 +1,7 @@
 /*
- * File: flash.h
- * Description: LED binking API
- * Author: Mike Fruge
+ * File: flash.c
+ * Description: This file defines macros and function prototypes for LEDS
+ * Authors: Mike Fruge and Mark Hinkle
  */
 
 #include <stdint.h>

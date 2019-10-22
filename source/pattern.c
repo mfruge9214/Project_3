@@ -1,6 +1,10 @@
+/*
+ * File: pattern.c
+ * Description: This file handles the pattern generation for the project
+ * Authors: Mike Fruge and Mark Hinkle
+ */
+
 #include "pattern.h"
-
-
 
 void createPattern(size_t len, uint8_t seed, uint8_t* genList)
 {

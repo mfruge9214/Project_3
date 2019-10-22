@@ -1,4 +1,8 @@
-/* Includes */
+/*
+ * File: memtest.h
+ * Description: This file defines macros and function prototypes for the memory functions
+ * Authors: Mike Fruge and Mark Hinkle
+ */
 
 #include <stdint.h>
 #include <stddef.h>

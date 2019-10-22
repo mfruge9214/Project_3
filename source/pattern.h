@@ -1,4 +1,8 @@
-
+/*
+ * File: pattern.h
+ * Description: This file defines macros and function prototypes for the pattern generation
+ * Authors: Mike Fruge and Mark Hinkle
+ */
 
 #include <stdint.h>
 #include <stdio.h>
