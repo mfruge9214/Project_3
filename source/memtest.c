@@ -82,15 +82,14 @@ mem_status invertBlock(uint32_t* loc, size_t len)
 		return INVALID_LEN;
 	}
 
-	size_t i = 0;
-	while(i < len)
+	uint8_t val;
+	uint32_t * mem_ptr = loc;
+	for(size_t i = 0; i < len; i++)
 	{
-		uint8_t val = *loc;
+		val = *mem_ptr;
 		val = ~val;
-		*loc = val;
-
-		loc++;
-		i++;
+		*mem_ptr = val;
+		mem_ptr++;
 	}
 	return SUCCESS;
 }
@@ -119,7 +118,7 @@ mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed)
 	while(i < len)
 	{
 		ret = writeMemory(temp_ptr, pat[i]);
-		printf("Wrote memory address %p with value %d\n\r", temp_ptr, *temp_ptr);
+//		printf("Wrote memory address %p with value %d\n\r", temp_ptr, *temp_ptr);
 		if(ret != SUCCESS)
 		{
 			printf("writeMemory failed with code %d\n", ret);
@@ -135,12 +134,14 @@ mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed)
 	return ret;
 }
 
-void verifyPattern(uint32_t* loc, size_t len, int8_t seed, uint32_t ** ret)
+int8_t verifyPattern(uint32_t* loc, size_t len, int8_t seed, uint32_t ** ret)
 {
 	if((loc != NULL) && (len > 0))
 	{
+		int8_t err_cnt = 0;
+
 		uint8_t pat[len];
-		/* generate pattern - store in pat */
+		createPattern(len, seed, pat);
 
 		uint32_t * mem_ptr = loc;
 		size_t i = 0;
@@ -150,15 +151,18 @@ void verifyPattern(uint32_t* loc, size_t len, int8_t seed, uint32_t ** ret)
 			{
 				*ret = mem_ptr;
 				ret++;
+				err_cnt++;
 			}
 			i++;
 			mem_ptr++;
 		}
-		*ret = 0; // End mismatch array with 0, check for this upon return
+		*ret = NULL_PTR; // End mismatch array with 0, check for this upon return
+		return err_cnt;
 	}
 	else
 	{
 		//log error
+		return -1;
 	}
 }
 
