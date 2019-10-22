@@ -1,6 +1,7 @@
 /* Includes */
 
 #include "memtest.h"
+#include "logger.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -34,21 +35,20 @@ void freeWords(uint32_t* src)
 	// log success
 }
 
-void displayMemory(uint32_t* loc, size_t len, uint8_t * ret)
+mem_status displayMemory(uint32_t* loc, size_t len, uint8_t * ret)
 {
-	if((loc != NULL) && (len > 0))
+	if(loc == NULL)
+		return INVALID_LOC;
+	if(len <= 0)
+		return INVALID_LEN;
+
+	uint32_t * mem_ptr = loc;
+	for(size_t i = 0; i < len; i++)
 	{
-		uint32_t * mem_ptr = loc;
-		for(size_t i = 0; i < len; i++)
-		{
-			ret[i] = *mem_ptr;
-			mem_ptr++;
-		}
+		ret[i] = *mem_ptr;
+		mem_ptr++;
 	}
-	else
-	{
-		//log error
-	}
+	return SUCCESS;
 }
 
 mem_status writeMemory(uint32_t* loc, uint8_t value)
@@ -111,17 +111,16 @@ mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed)
 
 	uint8_t pat[len];
 	createPattern(len, seed, pat);
-	printf("Pattern Generated\n\r");
 
 	mem_status ret = SUCCESS;
 	size_t i = 0;
 	while(i < len)
 	{
 		ret = writeMemory(temp_ptr, pat[i]);
-//		printf("Wrote memory address %p with value %d\n\r", temp_ptr, *temp_ptr);
 		if(ret != SUCCESS)
 		{
-			printf("writeMemory failed with code %d\n", ret);
+			logString("writeMemory failed with code:");
+			logInteger((uint32_t)ret);
 			break;
 		}
 		if(i == 15)

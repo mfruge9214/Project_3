@@ -47,8 +47,9 @@ int main(void) {
     mem_block block1;
     mem_status result;
     uint8_t seed = 45;
-    uint8_t i = 0;
     int8_t mem_errors = 0;
+    uint8_t mem_vals[LEN];
+    uint32_t * mem_error_addr[LEN];
 
     /* Logger Test*/
     char TestMsg[] = "This is a logger test\n";
@@ -57,185 +58,301 @@ int main(void) {
     logString(TestMsg);
 
 
-    /* Allocate memory */
+    /*** (1) Allocate memory ***/
     block1.length = LEN;
     block1.blockptr = allocateWords(block1.length * sizeof(uint32_t));
-
-    /* Check that memory was allocated */
     if(block1.blockptr != NULL)
-    	printf("Memory Allocated at 0x%p\n\r", block1.blockptr);
-
-    /* Write pattern to memory */
-    result = writePattern(block1.blockptr, block1.length, seed);
-    if(result != SUCCESS)
     {
-    	printf("Write Pattern Error\n\r");
-        freeWords(block1.blockptr);
-        printf("Memory Freed\n\r");
-        while(1);
-    }
-    printf("\nPattern Written Successfully!\n\r");
-
-    /* Display memory contents */
-    uint8_t mem_vals[block1.length];
-    displayMemory(block1.blockptr, block1.length, mem_vals);
-    for(i = 0; i < block1.length; i++)
-    {
-    	printf("Byte %d = 0x%X\n", i, mem_vals[i]);
-    }
-    printf("\n");
-
-    /* Verify Pattern - Should Pass */
-    uint32_t * mem_error_addr[block1.length];
-    mem_errors = verifyPattern(block1.blockptr, block1.length, seed, mem_error_addr);
-    if(mem_errors == -1)
-    {
-    	//log error
+    	logString("Memory Allocated");
+    	//LEDSuccess();
     }
     else
     {
-		for(i = 0; i < mem_errors; i++)
-		{
-			printf("Memory Discrepancy at 0x%p\n", mem_error_addr[i]);
-		}
-		printf("Pattern Verification Complete\n\n");
+    	logString("Allocate Words Failed");
+    	//LEDFailure();
+		while(1);
     }
 
-    /* Calculate Offsets and Write New Value */
+
+    /*** (2) Write pattern to memory ***/
+    result = writePattern(block1.blockptr, block1.length, seed);
+    if(result == SUCCESS)
+    {
+    	logString("Pattern Written Successfully\n");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("Write Pattern Failed with Error:");
+    	logInteger((uint32_t)result);
+    	//LEDFailure();
+    }
+
+
+    /*** (3) Display memory contents ***/
+    result = displayMemory(block1.blockptr, block1.length, mem_vals);
+    if(result == SUCCESS)
+    {
+    	logString("Displaying Memory:");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("Invalid Inputs to displayMemory: ");
+    	logInteger((uint32_t)result);
+    	//LEDFailure();
+    }
+	logData(block1.blockptr, block1.length);
+
+
+    /*** (4) Verify Pattern - Should Pass ***/
+    mem_errors = verifyPattern(block1.blockptr, block1.length, seed, mem_error_addr);
+    if(mem_errors == -1)
+    {
+    	logString("Invalid Inputs to verifyPattern\n");
+    	//LEDFailure();
+    }
+    else if (mem_errors == 0)
+    {
+    	logString("Pattern Verified - No Errors\n");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("\nNumber of Memory Discrepancies:");
+    	logInteger(mem_errors);
+    	logData(mem_error_addr[0], mem_errors);
+		logString("Pattern Verification Complete\n");
+		//LEDFailure();
+    }
+
+
+    /*** (5) Calculate Offsets and Write New Value ****/
     uint32_t * offset_addr = getAddress(block1.blockptr, OFFSET_A);
-    printf("Offset Address 1 = 0x%p\n", offset_addr);
-    writeMemory(offset_addr, NEWVAL1);
-    offset_addr = getAddress(block1.blockptr, OFFSET_A + 1);
-    printf("Offset Address 2 = 0x%p\n", offset_addr);
-    writeMemory(offset_addr, NEWVAL2);
-    printf("Rewrote Bytes %u & %u with 0x%X%X\n\n", OFFSET_A, (OFFSET_A + 1), NEWVAL1, NEWVAL2);
-
-    /* Display memory contents */
-    displayMemory(block1.blockptr, block1.length, mem_vals);
-    for(i = 0; i < block1.length; i++)
+    result = writeMemory(offset_addr, NEWVAL1);
+    if(result == SUCCESS) //continue
     {
-    	printf("Byte %d = 0x%X\n", i, mem_vals[i]);
-    }
-    printf("\n");
-
-    /* Verify Pattern - Should Fail */
-    mem_errors = verifyPattern(block1.blockptr, block1.length, seed, mem_error_addr);
-    if(mem_errors == -1)
-    {
-    	//log error
+    	logString("Rewrote byte 5 with 0xFF");
+        offset_addr = getAddress(block1.blockptr, OFFSET_A + 1);
+        result = writeMemory(offset_addr, NEWVAL2);
+        if(result == SUCCESS)
+        {
+        	logString("Rewrote byte 6 with 0xEE");
+        	//LEDSuccess();
+        }
+        else
+        {
+        	logString("Failed Writing Memory to Offset Address\n");
+        	//LEDFailure();
+        }
     }
     else
     {
-		for(i = 0; i < mem_errors; i++)
-		{
-			printf("Memory Discrepancy at 0x%p\n", mem_error_addr[i]);
-		}
-		printf("Pattern Verification Complete\n\n");
+    	logString("Failed Writing Memory to Offset Address\n");
+    	//LEDFailure();
     }
 
-    /* Rewrite pattern to memory */
-    result = writePattern(block1.blockptr, block1.length, seed);
-    if(result != SUCCESS)
-    {
-    	printf("Write Pattern Error\n\r");
-        freeWords(block1.blockptr);
-        printf("Memory Freed\n\r");
-        while(1);
-    }
-    printf("\nPattern Written Successfully!\n\r");
 
-    /* Display memory contents */
-    displayMemory(block1.blockptr, block1.length, mem_vals);
-    for(i = 0; i < block1.length; i++)
+    /*** (6) Display memory contents ***/
+    result = displayMemory(block1.blockptr, block1.length, mem_vals);
+    if(result == SUCCESS)
     {
-    	printf("Byte %d = 0x%X\n", i, mem_vals[i]);
-    }
-    printf("\n");
-
-    /* Verify Pattern - Should Pass */
-    mem_errors = verifyPattern(block1.blockptr, block1.length, seed, mem_error_addr);
-    if(mem_errors == -1)
-    {
-    	//log error
+    	logString("Displaying Memory:");
+    	//LEDSuccess();
     }
     else
     {
-		for(i = 0; i < mem_errors; i++)
-		{
-			printf("Memory Discrepancy at 0x%p\n", mem_error_addr[i]);
-		}
-		printf("Pattern Verification Complete\n\n");
+    	logString("Invalid Inputs to displayMemory: ");
+    	logInteger((uint32_t)result);
+    	//LEDFailure();
     }
+	logData(block1.blockptr, block1.length);
 
-    /* Calculate Address and Invert Bytes */
-    offset_addr = getAddress(block1.blockptr, OFFSET_B);
-    result = invertBlock(offset_addr, INVERT_LEN);
-    if(result != SUCCESS)
-    {
-    	// log error
-    }
-    printf("Inverted %u bytes beginning at address 0x%p\n\n", INVERT_LEN, offset_addr);
 
-    /* Display memory contents */
-    displayMemory(offset_addr, INVERT_LEN, mem_vals);
-    for(i = 0; i < INVERT_LEN; i++)
-    {
-    	printf("Byte %d = 0x%X\n", i + OFFSET_B, mem_vals[i]);
-    }
-    printf("\n");
-
-    /* Verify Pattern - Should Fail */
-    mem_errors = verifyPattern(block1.blockptr, block1.length, seed, mem_error_addr);
-    if(mem_errors == -1)
-    {
-    	//log error
-    }
-    else
-    {
-		for(i = 0; i < mem_errors; i++)
-		{
-			printf("Memory Discrepancy at 0x%p\n", mem_error_addr[i]);
-		}
-		printf("Pattern Verification Complete\n\n");
-    }
-
-    /* Re-Invert the Bytes */
-    result = invertBlock(offset_addr, INVERT_LEN);
-	if(result != SUCCESS)
-	{
-		// log error
-	}
-	printf("Inverted %u bytes beginning at address 0x%p\n\n", INVERT_LEN, offset_addr);
-
-	/* Display memory contents */
-	displayMemory(offset_addr, INVERT_LEN, mem_vals);
-	for(i = 0; i < INVERT_LEN; i++)
-	{
-		printf("Byte %d = 0x%X\n", i + OFFSET_B, mem_vals[i]);
-	}
-	printf("\n");
-
-	/* Verify Pattern - Should Pass */
+	/*** (7) Verify Pattern - Should Fail ***/
 	mem_errors = verifyPattern(block1.blockptr, block1.length, seed, mem_error_addr);
 	if(mem_errors == -1)
 	{
-		//log error
+		logString("Invalid Inputs to verifyPattern\n");
+		//LEDFailure();
+	}
+	else if (mem_errors == 0)
+	{
+		logString("Pattern Verified - No Errors\n");
+		//LEDSuccess();
 	}
 	else
 	{
-		for(i = 0; i < mem_errors; i++)
-		{
-			printf("Memory Discrepancy at 0x%p\n", mem_error_addr[i]);
-		}
-		printf("Pattern Verification Complete\n\n");
+    	logString("\nNumber of Memory Discrepancies:");
+    	logInteger(mem_errors);
+    	logData(mem_error_addr[0], mem_errors);
+		logString("Pattern Verification Complete\n");
+		//LEDFailure();
 	}
 
-    logData(block1.blockptr, 16);
-    printf("Pattern Fully Displayed\n\r");
+
+    /*** (8) Rewrite pattern to memory ***/
+    result = writePattern(block1.blockptr, block1.length, seed);
+    if(result == SUCCESS)
+    {
+    	logString("Pattern Written Successfully\n");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("Write Pattern Failed with Error:");
+    	logInteger((uint32_t)result);
+    	//LEDFailure();
+    }
 
 
-    /* Free allocated Block */
+    /*** (9) Display memory contents ***/
+    result = displayMemory(block1.blockptr, block1.length, mem_vals);
+    if(result == SUCCESS)
+    {
+    	logString("Displaying Memory:");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("Invalid Inputs to displayMemory: ");
+    	logInteger((uint32_t)result);
+    	//LEDFailure();
+    }
+	logData(block1.blockptr, block1.length);
+
+
+    /*** (10) Verify Pattern - Should Pass ***/
+    mem_errors = verifyPattern(block1.blockptr, block1.length, seed, mem_error_addr);
+    if(mem_errors == -1)
+    {
+    	logString("Invalid Inputs to verifyPattern\n");
+    	//LEDFailure();
+    }
+    else if (mem_errors == 0)
+    {
+    	logString("Pattern Verified - No Errors\n");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("\nNumber of Memory Discrepancies:");
+    	logInteger(mem_errors);
+    	logData(mem_error_addr[0], mem_errors);
+		logString("Pattern Verification Complete\n");
+		//LEDFailure();
+    }
+
+
+    /*** (11) Calculate Address and Invert Bytes ***/
+    offset_addr = getAddress(block1.blockptr, OFFSET_B);
+    result = invertBlock(offset_addr, INVERT_LEN);
+    if(result == SUCCESS)
+    {
+    	logString("Inverted 4 Bytes Beginning at Byte 8\n");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("Invert Block Failed\n");
+    	logInteger((uint32_t)result);
+    	//LEDFailure();
+    }
+
+
+    /*** (12) Display memory contents ***/
+    result = displayMemory(block1.blockptr, block1.length, mem_vals);
+    if(result == SUCCESS)
+    {
+    	logString("Displaying Memory:");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("Invalid Inputs to displayMemory: ");
+    	logInteger((uint32_t)result);
+    	//LEDFailure();
+    }
+	logData(block1.blockptr, block1.length);
+
+
+    /*** (13) Verify Pattern - Should Fail ***/
+    mem_errors = verifyPattern(block1.blockptr, block1.length, seed, mem_error_addr);
+    if(mem_errors == -1)
+    {
+    	logString("Invalid Inputs to verifyPattern\n");
+    	//LEDFailure();
+    }
+    else if (mem_errors == 0)
+    {
+    	logString("Pattern Verified - No Errors\n");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("\nNumber of Memory Discrepancies:");
+    	logInteger(mem_errors);
+    	logData(mem_error_addr[0], mem_errors);
+		logString("Pattern Verification Complete\n");
+		//LEDFailure();
+    }
+
+
+    /*** (14) Re-invert Bytes ***/
+    result = invertBlock(offset_addr, INVERT_LEN);
+    if(result == SUCCESS)
+    {
+    	logString("Inverted 4 Bytes Beginning at Byte 8\n");
+    	//LEDSuccess();
+    }
+    else
+    {
+    	logString("Invert Block Failed\n");
+    	logInteger((uint32_t)result);
+    	//LEDFailure();
+    }
+
+
+    /*** (15) Display memory contents ***/
+     result = displayMemory(block1.blockptr, block1.length, mem_vals);
+     if(result == SUCCESS)
+     {
+     	logString("Displaying Memory:");
+     	//LEDSuccess();
+     }
+     else
+     {
+     	logString("Invalid Inputs to displayMemory: ");
+     	logInteger((uint32_t)result);
+     	//LEDFailure();
+     }
+ 	logData(block1.blockptr, block1.length);
+
+
+     /*** (16) Verify Pattern - Should Fail ***/
+     mem_errors = verifyPattern(block1.blockptr, block1.length, seed, mem_error_addr);
+     if(mem_errors == -1)
+     {
+     	logString("Invalid Inputs to verifyPattern\n");
+     	//LEDFailure();
+     }
+     else if (mem_errors == 0)
+     {
+     	logString("Pattern Verified - No Errors\n");
+     	//LEDSuccess();
+     }
+     else
+     {
+     	logString("\nNumber of Memory Discrepancies:");
+     	logInteger(mem_errors);
+     	logData(mem_error_addr[0], mem_errors);
+ 		logString("Pattern Verification Complete\n");
+ 		//LEDFailure();
+     }
+
+
+    /*** (17) Free allocated Block ***/
     freeWords(block1.blockptr);
-    printf("\nMemory Freed\n\r");
+    logString("Memory Freed!!\n");
 }
 

@@ -63,7 +63,7 @@ void logData(uint32_t* loc, size_t len)
 
 	for(i=0; i<len; i++)
 	{
-		printf("Address: 0x%p		Value: 0x%04X \n\r", currLoc, *currLoc);
+		printf("Address: 0x%p		Value: 0x%02X \n\r", currLoc, *currLoc);
 		currLoc++;
 	}
 

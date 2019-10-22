@@ -54,8 +54,10 @@ void freeWords(uint32_t* src);
  * @param[in] len	Amount of bytes to read
  *
  * @param[out] ret  Contents of memory specified by inputs
+ *
+ * @returns SUCCESS or FAILURE
  ***********************************************/
-void displayMemory(uint32_t* loc, size_t len, uint8_t * ret);
+mem_status displayMemory(uint32_t* loc, size_t len, uint8_t * ret);
 
 /***********************************************
  * @brief	Write to an allocated byte of memory
