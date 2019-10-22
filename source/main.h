@@ -11,7 +11,15 @@
 #define TABLE_ELEMENTS		20
 
 
-#define LEN		16
+#define LEN			16
+
+#define NEWVAL1     0xFF
+#define NEWVAL2     0xEE
+#define OFFSET_A 	5
+
+#define INVERT_LEN  4
+#define OFFSET_B   	8
+
 
 static const uint32_t timing_lookup[TABLE_ELEMENTS] =
 {

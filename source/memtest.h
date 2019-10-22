@@ -8,6 +8,7 @@
 /* Definitions */
 
 #define MEM_ALLOCATION_LIMIT	512
+#define NULL_PTR                0x00000000UL
 
 /* Structs */
 
@@ -102,8 +103,10 @@ mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed);
  * @param[in] seed	Value used by pattern generator to create the pattern
  *
  * @param[out] ret  List of memory addresses where memory does not match
+ *
+ * @returns -1 if FAIL else returns number of memory discrepancies
  ***********************************************/
-void verifyPattern(uint32_t* loc, size_t len, int8_t seed, uint32_t ** ret);
+int8_t verifyPattern(uint32_t* loc, size_t len, int8_t seed, uint32_t ** ret);
 
 /***********************************************
  * @brief	Calculates fully addressable memory location from an offset and a known base location
