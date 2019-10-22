@@ -52,11 +52,11 @@ int main(void) {
     uint32_t * mem_error_addr[LEN];
 
     /* Logger Test*/
-    char TestMsg[] = "This is a logger test\n";
     logInit();
     logEnable();
-    logString(TestMsg);
 
+    /* Start Memory Tests */
+    BlueLEDOn();
 
     /*** (1) Allocate memory ***/
     block1.length = LEN;
@@ -64,12 +64,12 @@ int main(void) {
     if(block1.blockptr != NULL)
     {
     	logString("Memory Allocated");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
     	logString("Allocate Words Failed");
-    	//LEDFailure();
+    	RedLEDOn();
 		while(1);
     }
 
@@ -79,13 +79,13 @@ int main(void) {
     if(result == SUCCESS)
     {
     	logString("Pattern Written Successfully\n");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
     	logString("Write Pattern Failed with Error:");
     	logInteger((uint32_t)result);
-    	//LEDFailure();
+    	RedLEDOn();
     }
 
 
@@ -94,13 +94,13 @@ int main(void) {
     if(result == SUCCESS)
     {
     	logString("Displaying Memory:");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
     	logString("Invalid Inputs to displayMemory: ");
     	logInteger((uint32_t)result);
-    	//LEDFailure();
+    	RedLEDOn();
     }
 	logData(block1.blockptr, block1.length);
 
@@ -110,12 +110,12 @@ int main(void) {
     if(mem_errors == -1)
     {
     	logString("Invalid Inputs to verifyPattern\n");
-    	//LEDFailure();
+    	RedLEDOn();
     }
     else if (mem_errors == 0)
     {
     	logString("Pattern Verified - No Errors\n");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
@@ -123,7 +123,7 @@ int main(void) {
     	logInteger(mem_errors);
     	logData(mem_error_addr[0], mem_errors);
 		logString("Pattern Verification Complete\n");
-		//LEDFailure();
+		RedLEDOn();
     }
 
 
@@ -138,18 +138,18 @@ int main(void) {
         if(result == SUCCESS)
         {
         	logString("Rewrote byte 6 with 0xEE");
-        	//LEDSuccess();
+        	GreenLEDOn();
         }
         else
         {
         	logString("Failed Writing Memory to Offset Address\n");
-        	//LEDFailure();
+        	RedLEDOn();
         }
     }
     else
     {
     	logString("Failed Writing Memory to Offset Address\n");
-    	//LEDFailure();
+    	RedLEDOn();
     }
 
 
@@ -158,13 +158,13 @@ int main(void) {
     if(result == SUCCESS)
     {
     	logString("Displaying Memory:");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
     	logString("Invalid Inputs to displayMemory: ");
     	logInteger((uint32_t)result);
-    	//LEDFailure();
+    	RedLEDOn();
     }
 	logData(block1.blockptr, block1.length);
 
@@ -174,12 +174,12 @@ int main(void) {
 	if(mem_errors == -1)
 	{
 		logString("Invalid Inputs to verifyPattern\n");
-		//LEDFailure();
+		RedLEDOn();
 	}
 	else if (mem_errors == 0)
 	{
 		logString("Pattern Verified - No Errors\n");
-		//LEDSuccess();
+		GreenLEDOn();
 	}
 	else
 	{
@@ -187,7 +187,7 @@ int main(void) {
     	logInteger(mem_errors);
     	logData(mem_error_addr[0], mem_errors);
 		logString("Pattern Verification Complete\n");
-		//LEDFailure();
+		RedLEDOn();
 	}
 
 
@@ -196,13 +196,13 @@ int main(void) {
     if(result == SUCCESS)
     {
     	logString("Pattern Written Successfully\n");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
     	logString("Write Pattern Failed with Error:");
     	logInteger((uint32_t)result);
-    	//LEDFailure();
+    	RedLEDOn();
     }
 
 
@@ -211,13 +211,13 @@ int main(void) {
     if(result == SUCCESS)
     {
     	logString("Displaying Memory:");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
     	logString("Invalid Inputs to displayMemory: ");
     	logInteger((uint32_t)result);
-    	//LEDFailure();
+    	RedLEDOn();
     }
 	logData(block1.blockptr, block1.length);
 
@@ -227,12 +227,12 @@ int main(void) {
     if(mem_errors == -1)
     {
     	logString("Invalid Inputs to verifyPattern\n");
-    	//LEDFailure();
+    	RedLEDOn();
     }
     else if (mem_errors == 0)
     {
     	logString("Pattern Verified - No Errors\n");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
@@ -240,7 +240,7 @@ int main(void) {
     	logInteger(mem_errors);
     	logData(mem_error_addr[0], mem_errors);
 		logString("Pattern Verification Complete\n");
-		//LEDFailure();
+		RedLEDOn();
     }
 
 
@@ -250,13 +250,13 @@ int main(void) {
     if(result == SUCCESS)
     {
     	logString("Inverted 4 Bytes Beginning at Byte 8\n");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
     	logString("Invert Block Failed\n");
     	logInteger((uint32_t)result);
-    	//LEDFailure();
+    	RedLEDOn();
     }
 
 
@@ -265,13 +265,13 @@ int main(void) {
     if(result == SUCCESS)
     {
     	logString("Displaying Memory:");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
     	logString("Invalid Inputs to displayMemory: ");
     	logInteger((uint32_t)result);
-    	//LEDFailure();
+    	RedLEDOn();
     }
 	logData(block1.blockptr, block1.length);
 
@@ -281,12 +281,12 @@ int main(void) {
     if(mem_errors == -1)
     {
     	logString("Invalid Inputs to verifyPattern\n");
-    	//LEDFailure();
+    	RedLEDOn();
     }
     else if (mem_errors == 0)
     {
     	logString("Pattern Verified - No Errors\n");
-    	//LEDSuccess();
+    	GreenLEDOn();;
     }
     else
     {
@@ -294,7 +294,7 @@ int main(void) {
     	logInteger(mem_errors);
     	logData(mem_error_addr[0], mem_errors);
 		logString("Pattern Verification Complete\n");
-		//LEDFailure();
+		RedLEDOn();
     }
 
 
@@ -303,13 +303,13 @@ int main(void) {
     if(result == SUCCESS)
     {
     	logString("Inverted 4 Bytes Beginning at Byte 8\n");
-    	//LEDSuccess();
+    	GreenLEDOn();
     }
     else
     {
     	logString("Invert Block Failed\n");
     	logInteger((uint32_t)result);
-    	//LEDFailure();
+    	RedLEDOn();
     }
 
 
@@ -318,13 +318,13 @@ int main(void) {
      if(result == SUCCESS)
      {
      	logString("Displaying Memory:");
-     	//LEDSuccess();
+     	GreenLEDOn();
      }
      else
      {
      	logString("Invalid Inputs to displayMemory: ");
      	logInteger((uint32_t)result);
-     	//LEDFailure();
+     	RedLEDOn();
      }
  	logData(block1.blockptr, block1.length);
 
@@ -334,12 +334,12 @@ int main(void) {
      if(mem_errors == -1)
      {
      	logString("Invalid Inputs to verifyPattern\n");
-     	//LEDFailure();
+     	RedLEDOn();
      }
      else if (mem_errors == 0)
      {
      	logString("Pattern Verified - No Errors\n");
-     	//LEDSuccess();
+     	GreenLEDOn();
      }
      else
      {
@@ -347,7 +347,7 @@ int main(void) {
      	logInteger(mem_errors);
      	logData(mem_error_addr[0], mem_errors);
  		logString("Pattern Verification Complete\n");
- 		//LEDFailure();
+ 		RedLEDOn();
      }
 
 

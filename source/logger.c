@@ -15,12 +15,12 @@ void logEnable()
 {
 	if(LogEnable)
 	{
-		printf("Log already Enabled");
+		printf("Log already Enabled\n\r");
 	}
 	else
 	{
 		LogEnable = true;
-		printf("Log Enabled");
+		printf("Log Enabled\n\r");
 	}
 
 }
@@ -28,7 +28,7 @@ void logEnable()
 
 void logDisable()
 {
-	printf("Disabling Logger");
+	printf("Disabling Logger\n\r");
 	if(LogEnable)
 	{
 		LogEnable = false;
@@ -45,7 +45,6 @@ bool logStatus()
 void logData(uint32_t* loc, size_t len)
 {
 
-	// Can also use Read Memory function here
 	if(!LogEnable)
 	{
 		return;
@@ -53,8 +52,6 @@ void logData(uint32_t* loc, size_t len)
 	uint32_t* currLoc = loc;
 	size_t i = 0;
 
-	// Access memory directly, or read from the same buffer every time?
-	// Direct access: Easier, misses memory checks (included in the memory test suite)
 
 	for(i=0; i<len; i++)
 	{

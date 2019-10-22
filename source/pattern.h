@@ -12,5 +12,13 @@
 #define BIT6_MASK	0x40
 #define BIT7_MASK	0x80
 
-
+/********************************
+ * @brief Creates pseudo-random pattern through LFSR implementation
+ *
+ * @param[in] len	Length of array to generate, in bytes
+ *
+ * @param[in] seed	Starting State for the LFSR
+ *
+ *
+ *******************************/
 void createPattern(size_t len, uint8_t seed, uint8_t* genList);
