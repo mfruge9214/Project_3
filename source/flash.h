@@ -7,7 +7,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#if defined(FB_RUN) || defined(FB_DEBUG)
+
+#ifdef BOARD
 #include "board.h"
 
 #define	RED_PORT	GPIOB
@@ -28,8 +29,53 @@ enum Color
 	BLUE
 };
 
+
+/***********************************************
+ *
+ * @brief	Blinks the led of specified color for time on and time off
+ *
+ * @param[in] Color		Color to set the LED to when on
+ *
+ * @param[in] time_on	Amount of time to leave LED in ON state
+ *
+ * @param[in] time_off 	Amount of time to leave LED in OFF state
+ *
+ ***********************************************/
 void blinkLED(enum Color color, uint32_t time_on, uint32_t time_off);
+
+/***********************************************
+ *
+ * @brief	Set LED to RED and disable other colors
+ *
+ ***********************************************/
+void RedLEDOn();
+
+/***********************************************
+ *
+ * @brief	Set LED to Green and disable other colors
+ *
+ ***********************************************/
+void GreenLEDOn();
+
+/***********************************************
+ *
+ * @brief	Set LED to Green and disable other colors
+ *
+ ***********************************************/
+void BlueLEDOn();
+
+/***********************************************
+ *
+ * @brief	Initialize LEDs to off and route their pins
+ *
+ ***********************************************/
 void initLEDs();
+
+/***********************************************
+ *
+ * @brief	Delays for time ms
+ *
+ * @param[in] time	Approximate amount of milliseconds to delay for
+ *
+ ***********************************************/
 void delay(uint32_t time);
-
-

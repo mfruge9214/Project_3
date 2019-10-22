@@ -2,19 +2,29 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "pattern.h"
 
 
 /* Definitions */
 
 #define MEM_ALLOCATION_LIMIT	512
+#define NULL_PTR                0x00000000UL
 
 /* Structs */
 
-typedef enum mem_status
+typedef enum
 {
-	SUCCESS = 0,
-	FAIL
-}mem_status;
+	SUCCESS      =  0,
+	INVALID_LOC  = -1,
+	INVALID_LEN  = -2,
+	FAILURE      = -3
+} mem_status;
+
+typedef struct
+{
+	uint32_t * blockptr;
+	size_t length;
+} mem_block;
 
 
 /* Function Declarations */
@@ -43,9 +53,11 @@ void freeWords(uint32_t* src);
  *
  * @param[in] len	Amount of bytes to read
  *
- * @returns Contents of memory location specified
+ * @param[out] ret  Contents of memory specified by inputs
+ *
+ * @returns SUCCESS or FAILURE
  ***********************************************/
-uint8_t* readMemory(uint32_t* loc, size_t len);
+mem_status displayMemory(uint32_t* loc, size_t len, uint8_t * ret);
 
 /***********************************************
  * @brief	Write to an allocated byte of memory
@@ -67,7 +79,7 @@ mem_status writeMemory(uint32_t* loc, uint8_t value);
  *
  * @returns SUCCESS or FAIL
  ***********************************************/
-mem_status invertMem_block(uint32_t* loc, size_t len);
+mem_status invertBlock(uint32_t* loc, size_t len);
 
 /***********************************************
  * @brief	Generates a pseudo-random pattern and writes to a specified block of memory
@@ -80,7 +92,7 @@ mem_status invertMem_block(uint32_t* loc, size_t len);
  *
  * @returns SUCCESS or FAIL
  ***********************************************/
-mem_status writePattern(uint32_t* loc, size_t len, int8_t seed);
+mem_status writePattern(uint32_t* loc, size_t len, uint8_t seed);
 
 /***********************************************
  * @brief	Verifies pattern at address in memory by generating pattern from seed, creating a
@@ -92,9 +104,11 @@ mem_status writePattern(uint32_t* loc, size_t len, int8_t seed);
  *
  * @param[in] seed	Value used by pattern generator to create the pattern
  *
- * @returns List of memory addresses that did not match the pattern
+ * @param[out] ret  List of memory addresses where memory does not match
+ *
+ * @returns -1 if FAIL else returns number of memory discrepancies
  ***********************************************/
-uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed);
+int8_t verifyPattern(uint32_t* loc, size_t len, int8_t seed, uint32_t ** ret);
 
 /***********************************************
  * @brief	Calculates fully addressable memory location from an offset and a known base location
@@ -103,4 +117,4 @@ uint32_t* verifyPattern(uint32_t* loc, size_t len, int8_t seed);
  *
  * @returns Fully addressable memory location
  ***********************************************/
-uint32_t* getAddress(uint32_t* offset);
+uint32_t* getAddress(uint32_t* loc, uint32_t offset);

@@ -1,10 +1,12 @@
 #include "flash.h"
+#include "logger.h"
+
 
 
 
 void initLEDs()
 {
-#if defined(FB_RUN)  || defined(FB_DEBUG)
+#ifdef BOARD
 	/* Wanna see if this works */
 	/* Initialize LEDS to on */
 	LED_RED_INIT(LED_ON);
@@ -20,10 +22,51 @@ void initLEDs()
 #endif
 }
 
+
+void RedLEDOn()
+{
+#ifdef BOARD
+	LED_RED_ON();
+	LED_GREEN_OFF();
+	LED_BLUE_OFF();
+#endif
+
+#ifdef PC
+	logString("Red LED On");
+#endif
+}
+
+void BlueLEDOn()
+{
+#ifdef BOARD
+	LED_RED_OFF();
+	LED_GREEN_OFF();
+	LED_BLUE_ON();
+#endif
+
+#ifdef PC
+	logString("Blue LED On");
+#endif
+}
+
+void GreenLEDOn()
+{
+#ifdef BOARD
+	LED_RED_OFF();
+	LED_GREEN_ON();
+	LED_BLUE_OFF();
+#endif
+
+#ifdef PC
+	logString("Green LED On");
+#endif
+}
+
+
 /* BlinkLED: Executes 1 On, delay, Off, delay */
 void blinkLED(enum Color color, uint32_t time_on, uint32_t time_off)
 {
-#if defined(FB_RUN)  || defined(FB_DEBUG)
+#ifdef BOARD
 	/* Turn on desired LED */
 	switch(color)
 	{
@@ -39,7 +82,7 @@ void blinkLED(enum Color color, uint32_t time_on, uint32_t time_off)
 	}
 #endif
 
-#if defined(PC_RUN)  || defined(PC_DEBUG)
+#ifdef PC
 	switch(color)
 		{
 		case RED:
@@ -55,7 +98,7 @@ void blinkLED(enum Color color, uint32_t time_on, uint32_t time_off)
 #endif
 
 
-#if defined(FB_RUN)  || defined(FB_DEBUG)
+#ifdef BOARD
 	/* Turn off desired LED */
 	switch(color)
 	{
@@ -71,7 +114,7 @@ void blinkLED(enum Color color, uint32_t time_on, uint32_t time_off)
 	}
 #endif
 
-#if defined(PC_RUN)  || defined(PC_DEBUG)
+#ifdef PC
 	switch(color)
 		{
 		case RED:
